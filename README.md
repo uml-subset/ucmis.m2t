@@ -1,4 +1,4 @@
-## UCMIS.M2T
+# UCMIS.M2T
 
 UCMIS.M2T is a tool for the generation of the classifier documentation and syntax representations
 of a model confirming to the [UML Class Model Interoperable Subset (UCMIS)](about/ucmis) using
@@ -12,5 +12,6 @@ the document ['Import Eclipse Project from Git Repository'](about/ucmis-m2t/Impo
 [Acceleo resources](about/ucmis-m2t/acceleo_resources.md) are listed separately. A related tutorial explains some background, see
 ['Generating DDI - Cross-Domain Integration (DDI-CDI) in the Language of your Choice'](https://zenodo.org/record/4300365).
 
-** Work in progress**
+## Work in progress
+
 This version uses [Acceleo 4](https://download.eclipse.org/acceleo/updates/releases/). The original version of UCMIS.M2T using Acceleo 3 has its own [git repository](https://bitbucket.org/wackerow/ucmis.m2t/).
