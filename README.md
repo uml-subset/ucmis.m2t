@@ -15,3 +15,10 @@ the document ['Import Eclipse Project from Git Repository'](about/ucmis-m2t/Impo
 ## Work in progress
 
 This version uses [Acceleo 4](https://download.eclipse.org/acceleo/updates/releases/). The original version of UCMIS.M2T using Acceleo 3 has its own [git repository](https://bitbucket.org/wackerow/ucmis.m2t/).
+
+## Model to text generation
+```
+mvn clean verify
+mvn clean verify -Pgenerate
+```
+
