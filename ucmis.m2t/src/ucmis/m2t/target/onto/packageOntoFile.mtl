@@ -1,0 +1,12 @@
+[comment encoding = UTF-8 /]
+[module packageOntoFile('http://www.eclipse.org/uml2/5.0.0/Types', 'http://www.eclipse.org/uml2/5.0.0/UML', 'http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard')/]
+
+[import ucmis::m2t::query::modelQuery /]
+
+[comment template public packageOntoFile(aPackage : uml::Model)] /]
+[template public packageOntoFile(aPackage : uml::Package) ]
+	[comment ? ( not ( getProperty('ddi-cdi_packages_ignore').substituteAll(' ', '').tokenize(',')->exists(s|s=aPackage.name) ) )] /]
+[comment getProperty('ddi-cdi_packages_ignore')/] /]
+[file ( aPackage.getModel().e_modelShortName() + '/encoding/pydantic/' + aPackage.name + '.py', overwrite, 'UTF-8' ) ]
+[/file]
+[/template]
