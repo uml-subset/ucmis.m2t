@@ -8,7 +8,7 @@
  Processes a UML class model that meets the requirements of UCMIS.
  Creates a file for the model.
  /]
-[template public u_processModelDoc(aModel : uml::Model)]
+[template public processModelDoc(aModel : uml::Model)]
   [file ( aModel.name + '/index.rst', overwrite )]
     [for (aPackage : uml::Package | aModel.eAllContents(uml::Package))]
       [aPackage.qualifiedName/]

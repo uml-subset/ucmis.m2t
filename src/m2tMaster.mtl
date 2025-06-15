@@ -8,8 +8,10 @@
  */]
 [module m2tMaster('http://www.eclipse.org/uml2/5.0.0/UML', 'http://www.eclipse.org/uml2/5.0.0/Types', 'http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard')/]
 
+[import query::modelQuery/]
 [import target::doc::modelDocFile/]
 [import target::xsd::modelXsdFile/]
+[import test::test/]
 
 [**
  Processes a UML class model.
@@ -20,7 +22,7 @@
  /]
 [template public u_processModel(aModel : uml::Model)]
   [comment] TODO: Are Java property files possible?
-  	Not mentioned in 'Run Configurations'. Where can they be mentioned?
+  	Not mentioned in 'Run Configurations'. Where can they be mentioned? classpath?
   	getProperty doesn't exist. Is a Java service class necessary like getProperty?
   	How are property files mentioned in CLI? In classpath?
   Acceleo3: [if (getProperty('doc').trim().equalsIgnoreCase('true'))]
@@ -28,12 +30,13 @@
   [aModel.name/]
   [let doc = 'false']
     [if (doc = 'true')]
-  	  [aModel.u_processModelDoc()/]
+  	  [aModel.processModelDoc()/]
     [/if]
   [/let]
   [let xsd = 'true']
     [if (xsd = 'true')]
-  	  [aModel.u_processModelXsd()/]
+      [aModel.u_test()/]
+      [aModel.processModelXsd()/]
     [/if]
   [/let]
 [/template]
