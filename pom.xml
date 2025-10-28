@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright (C) 2011, 2025 Obeo
+
+   All rights reserved. This program and the accompanying materials
+   are made available under the terms of the Eclipse Public License v1.0
+   which accompanies this distribution, and is available at
+   http://www.eclipse.org/legal/epl-v10.html
+-->
+
+<!--
+USAGE:
+- build
+  mvn clean deploy -Pcompile
+- generate with maven standalone main class (with default model and property files)
+  mvn clean verify -Pgenerate
+- generate with custom model and multiple properties files
+  mvn clean verify -Pgenerate -Dmodel=custom.xmi -DpropertyFiles=custom.properties
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ucmis.m2t</groupId>
+  <artifactId>ucmis.m2t.parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ucmis.m2t Parent</name>
+
+  <properties>
+    <tycho-version>4.0.8</tycho-version>
+    <tycho-extras-version>4.0.8</tycho-extras-version>
+    <maven-clean-plugin-version>3.4.0</maven-clean-plugin-version>
+    <maven-repository-p2>releng/maven/repository-p2</maven-repository-p2>
+	<acceleo-repository>https://download.eclipse.org/acceleo/updates/nightly/latest/</acceleo-repository>
+	<acceleo-version>4.2.1-SNAPSHOT</acceleo-version>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>compile</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+
+      <distributionManagement>
+        <repository>
+          <id>generator</id>
+          <name>Generator Repository - Releases</name>
+          <url>file://${maven.multiModuleProjectDirectory}/${maven-repository-p2}</url>
+        </repository>
+        <snapshotRepository>
+          <id>generator</id>
+          <name>Generator Repository - Snapshots</name>
+          <url>file://${maven.multiModuleProjectDirectory}/${maven-repository-p2}</url>
+        </snapshotRepository>
+      </distributionManagement>
+
+      <repositories>
+        <!-- Acceleo 4 p2 repository. -->
+        <repository>
+          <id>Acceleo 4</id>
+          <layout>p2</layout>
+          <url>${acceleo-repository}</url>
+        </repository>
+        <!-- Eclipse p2 repository for all other dependencies. -->
+        <repository>
+          <id>Eclipse 2024-06 update site</id>
+          <layout>p2</layout>
+          <url>https://download.eclipse.org/releases/2024-06/</url>
+        </repository>
+      </repositories>
+
+      <modules>
+        <module>ucmis.m2t.generator</module>
+        <module>ucmis.m2t.feature</module>
+        <module>ucmis.m2t.site</module>
+      </modules>
+
+      <build>
+	    <plugins>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-maven-plugin</artifactId>
+            <version>${tycho-version}</version>
+            <extensions>true</extensions>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-packaging-plugin</artifactId>
+            <version>${tycho-version}</version>
+            <configuration>
+              <archive>
+                <addMavenDescriptor>false</addMavenDescriptor>
+              </archive>
+            </configuration>
+          </plugin>
+        </plugins>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-compiler-plugin</artifactId>
+              <version>${tycho-version}</version>
+              <configuration>
+                <encoding>UTF-8</encoding>
+                <source>${source-java-version}</source>
+                <target>${target-java-version}</target>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-clean-plugin</artifactId>
+              <version>${maven-clean-plugin-version}</version>
+              <configuration>
+                <filesets>
+                  <fileset>
+                    <directory>${maven-repository-p2}</directory>
+                  </fileset>
+                </filesets>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
+      <id>generate</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+
+      <repositories>
+        <!-- The repository built from the "compile" profile which contains our generator projects. The deploy directive created a Maven repository. -->
+        <repository>
+          <id>Acceleo generator</id>
+          <url>file://${maven.multiModuleProjectDirectory}/${maven-repository-p2}</url>
+        </repository>
+        <!-- Acceleo 4 maven repository -->
+        <repository>
+          <id>Acceleo 4</id>
+          <url>${acceleo-repository}</url>
+        </repository>
+		<!-- Eclipse p2 repository for UML2 and other dependencies -->
+        <repository>
+          <id>Eclipse 2024-06</id>
+		  <layout>p2</layout>
+          <url>https://download.eclipse.org/releases/2024-06/</url>
+        </repository>
+      </repositories>
+
+      <dependencies>
+        <!-- generator dependency -->
+        <dependency>
+          <groupId>ucmis.m2t</groupId>
+          <artifactId>ucmis.m2t.generator</artifactId>
+          <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <!-- Acceleo dependency -->
+        <dependency>
+          <groupId>org.eclipse.acceleo</groupId>
+          <artifactId>acceleo</artifactId>
+          <version>${acceleo-version}</version>
+        </dependency>
+      </dependencies>
+
+      <build>
+        <plugins>
+          <!-- Use tycho-eclipserun to run MainGenerator with access to all p2 dependencies -->
+          <plugin>
+            <groupId>org.eclipse.tycho</groupId>
+            <artifactId>tycho-eclipse-plugin</artifactId>
+            <version>${tycho-version}</version>
+			<configuration>
+              <repositories>
+                <!-- The p2 repository built from the "compile" profile which contains our generator projects. -->
+                <repository>
+                  <id>Ucmis generator</id>
+                  <layout>p2</layout>
+                  <url>file://${maven.multiModuleProjectDirectory}/ucmis.m2t.site/target/repository/</url>
+                </repository>
+                <!-- Acceleo 4 p2 repository containing the launcher feature. -->
+                <repository>
+                  <id>Acceleo 4</id>
+                  <layout>p2</layout>
+                  <url>${acceleo-repository}</url>
+                </repository>
+                <!-- Eclipse repository for all other dependencies. -->
+                <repository>
+                  <id>Eclipse 2024-06 update site</id>
+                  <layout>p2</layout>
+                  <url>https://download.eclipse.org/releases/2024-06/</url>
+                </repository>
+              </repositories>
+			  
+			  <dependencies>
+                <!-- And the bundle containing our templates must be present -->
+                <dependency>
+                  <artifactId>ucmis.m2t.generator</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+                <!-- UML2 dependencies -->
+                <dependency>
+                  <artifactId>org.eclipse.uml2.uml</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+                <dependency>
+                  <artifactId>org.eclipse.uml2.uml.resources</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+                <dependency>
+                  <artifactId>org.eclipse.uml2.common</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+                <dependency>
+                  <artifactId>org.eclipse.uml2.types</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+				<dependency>
+                  <artifactId>org.eclipse.uml2.uml.profile.standard</artifactId>
+                  <type>eclipse-plugin</type>
+                </dependency>
+              </dependencies>
+			  
+			  <jvmArgs>
+                <args>-DpropertyFiles=${project.basedir}/generic.properties,${project.basedir}/DDICDI.properties</args>
+                <args>-Dmodel=${project.basedir}/ddi-cdi_canonical-unique-names-eclipse.xmi</args>
+              </jvmArgs>
+			  <applicationsArgs>
+                <args>-consoleLog</args>
+                <args>-application</args>
+                <args>ucmis.m2t.generator.mainApplication</args>
+                <args>-data</args>
+                <args>${project.build.directory}/wks</args>
+                <args>${project.build.directory}/generated/</args>
+              </applicationsArgs>
+            </configuration>
+			
+			 <executions>
+              <execution>
+                <goals>
+                  <goal>eclipse-run</goal>
+                </goals>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

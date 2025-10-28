@@ -4,12 +4,12 @@
  */]
 [module commonXsd('http://www.eclipse.org/uml2/5.0.0/UML', 'http://www.eclipse.org/uml2/5.0.0/Types', 'http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard')/]
 
-[import query::modelQuery/]
+[import ucmis::m2t::generator::query::modelQuery/]
 
 [**
  * TODO
  */]
-[template public uxsd_referenceClass(aType : uml::Type) post(self.trim())]
+[comment][template public uxsd_referenceClass(aType : uml::Type) post(self.trim())]
   [let aClass = aType.oclAsType(uml::Class)]
     [if (aClass.e_allSubclassesPlusSelfNonAbstract()->notEmpty())]
       [for (aSubClass : uml::Class | aClass.e_allSubclassesPlusSelfNonAbstract())]
@@ -19,6 +19,20 @@
       <xs:enumeration value="[aClass.name/]"/>
     [/if]
   [/let]
+[/template][/comment]
+
+[template public uxsd_referenceClass(aType : uml::Type) post(self.trim())]
+  [if (aType.oclIsKindOf(uml::Class))]
+    [let aClass = aType.oclAsType(uml::Class)]
+      [if (aClass.e_allSubclassesPlusSelfNonAbstract()->notEmpty())]
+        [for (aSubClass : uml::Class | aClass.e_allSubclassesPlusSelfNonAbstract())]
+          <xs:enumeration value="[aSubClass.name/]"/>
+        [/for]
+      [else]
+        <xs:enumeration value="[aClass.name/]"/>
+      [/if]
+    [/let]
+  [/if]
 [/template]
 
 

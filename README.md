@@ -15,3 +15,12 @@ the document ['Import Eclipse Project from Git Repository'](about/ucmis-m2t/Impo
 ## Work in progress
 
 This version uses [Acceleo 4](https://download.eclipse.org/acceleo/updates/releases/). The original version of UCMIS.M2T using Acceleo 3 has its own [git repository](https://bitbucket.org/wackerow/ucmis.m2t/).
+
+## To build
+mvn clean deploy -Pcompile
+
+## To generate (with defaults)
+mvn clean verify -Pgenerate
+
+## To generate with specific model and properties
+mvn clean verify -Pgenerate -Dmodel=ddi-cdi_canonical-unique-names-eclipse.xmi -DpropertyFiles=generic.properties,DDICDI.properties

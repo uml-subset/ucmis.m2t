@@ -8,10 +8,11 @@
  */]
 [module m2tMaster('http://www.eclipse.org/uml2/5.0.0/UML', 'http://www.eclipse.org/uml2/5.0.0/Types', 'http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard')/]
 
-[import query::modelQuery/]
-[import target::doc::modelDocFile/]
-[import target::xsd::modelXsdFile/]
-[import test::test/]
+[import ucmis::m2t::generator::query::modelQuery/]
+[import ucmis::m2t::generator::target::doc::modelDocFile/]
+[import ucmis::m2t::generator::target::xsd::modelXsdFile/]
+[import ucmis::m2t::generator::test::test/]
+[import ucmis::m2t::generator::service::PropertyService/]
 
 [**
  Processes a UML class model.
@@ -33,10 +34,10 @@
   	  [aModel.processModelDoc()/]
     [/if]
   [/let]
-  [let xsd = 'true']
-    [if (xsd = 'true')]
-      [aModel.u_test()/]
-      [aModel.processModelXsd()/]
-    [/if]
-  [/let]
+  [if ('test'.getProperty().trim().equalsIgnoreCase('true'))]
+    [aModel.u_test()/]
+  [/if]
+  [if ('xsd'.getProperty().trim().equalsIgnoreCase('true'))]
+    [aModel.processModelXsd()/]
+  [/if]
 [/template]

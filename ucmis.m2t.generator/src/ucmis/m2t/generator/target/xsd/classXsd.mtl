@@ -4,8 +4,8 @@
  */]
 [module classXsd('http://www.eclipse.org/uml2/5.0.0/UML', 'http://www.eclipse.org/uml2/5.0.0/Types', 'http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard')/]
 
-[import query::modelQuery/]
-[import target::xsd::commonXsd/]
+[import ucmis::m2t::generator::query::modelQuery/]
+[import ucmis::m2t::generator::target::xsd::commonXsd/]
 
 [**
  * Generates XML Schema code for a class.
@@ -54,10 +54,10 @@
     [/for]
     [for (aProperty : uml::Property | aClass.u_associationProperties())]
       [let sourceClassProperty : uml::Property = aProperty.association.ownedEnd->first()]
-        [let targetClassProperty : uml::Property = sourceClassProperty.getOtherEnd()]
+        [comment][let targetClassProperty : uml::Property = sourceClassProperty.getOtherEnd()][/comment]
           <xs:element name="[aProperty.association.name/]"
-                      minOccurs="[targetClassProperty.lower/]"
-                      maxOccurs="[targetClassProperty.uxsd_upperCardinality()/]"
+                      minOccurs="[aProperty.lower/]"
+                      maxOccurs="[aProperty.uxsd_upperCardinality()/]"
                       xml:id="[aProperty.association.name/]">
             <xs:annotation>
               [aProperty.association.u_trimmedDocumentation().uxsd_escapeXmlCharacter().uxsd_documentation() /]
@@ -77,7 +77,7 @@
                                 xml:id="[aProperty.association.name + '-validType'/]">
                       <xs:simpleType>
                         <xs:restriction base="xs:NMTOKEN">
-                          [targetClassProperty.type.uxsd_referenceClass()/]
+                          [aProperty.type.uxsd_referenceClass()/]
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:element>
