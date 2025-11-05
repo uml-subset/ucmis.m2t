@@ -55,38 +55,38 @@
     [for (aProperty : uml::Property | aClass.u_associationProperties())]
       [let sourceClassProperty : uml::Property = aProperty.association.ownedEnd->first()]
         [comment][let targetClassProperty : uml::Property = sourceClassProperty.getOtherEnd()][/comment]
-          <xs:element name="[aProperty.association.name/]"
-                      minOccurs="[aProperty.lower/]"
-                      maxOccurs="[aProperty.uxsd_upperCardinality()/]"
-                      xml:id="[aProperty.association.name/]">
-            <xs:annotation>
-              [aProperty.association.u_trimmedDocumentation().uxsd_escapeXmlCharacter().uxsd_documentation() /]
-            </xs:annotation>
-            <xs:complexType>
-              <xs:complexContent>
-                <xs:restriction base="AssociationReferenceXsdType">
-                  <xs:sequence>
-                    <xs:element name="ddiReference"
-                                type="InternationalRegistrationDataIdentifierXsdType"
-                                minOccurs="0"
-                                maxOccurs="1"
-                                xml:id="[aProperty.association.name + '-ddiReference'/]"/>
-                    <xs:element name="validType"
-                                minOccurs="[sourceClassProperty.lower/]"
-                                maxOccurs="[sourceClassProperty.uxsd_upperCardinality()/]"
-                                xml:id="[aProperty.association.name + '-validType'/]">
-                      <xs:simpleType>
-                        <xs:restriction base="xs:NMTOKEN">
-                          [aProperty.type.uxsd_referenceClass()/]
-                        </xs:restriction>
-                      </xs:simpleType>
-                    </xs:element>
-                  </xs:sequence>
-                </xs:restriction>
-              </xs:complexContent>
-            </xs:complexType>
-          </xs:element>
-        [/let]
+        <xs:element name="[aProperty.association.name/]"
+                    minOccurs="[aProperty.lower/]"
+                    maxOccurs="[aProperty.uxsd_upperCardinality()/]"
+                    xml:id="[aProperty.association.name/]">
+          <xs:annotation>
+            [aProperty.association.u_trimmedDocumentation().uxsd_escapeXmlCharacter().uxsd_documentation() /]
+          </xs:annotation>
+          <xs:complexType>
+            <xs:complexContent>
+              <xs:restriction base="AssociationReferenceXsdType">
+                <xs:sequence>
+                  <xs:element name="ddiReference"
+                              type="InternationalRegistrationDataIdentifierXsdType"
+                              minOccurs="0"
+                              maxOccurs="1"
+                              xml:id="[aProperty.association.name + '-ddiReference'/]"/>
+                  <xs:element name="validType"
+                              minOccurs="[sourceClassProperty.lower/]"
+                              maxOccurs="[sourceClassProperty.uxsd_upperCardinality()/]"
+                              xml:id="[aProperty.association.name + '-validType'/]">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:NMTOKEN">
+                        [aProperty.type.uxsd_referenceClass()/]
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:restriction>
+            </xs:complexContent>
+          </xs:complexType>
+        </xs:element>
+        [comment][/let][/comment]
       [/let]
     [/for]
   </xs:sequence>

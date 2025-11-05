@@ -226,7 +226,7 @@ USAGE:
               </dependencies>
 			  
 			  <jvmArgs>
-                <args>-DpropertyFiles=${project.basedir}/generic.properties,${project.basedir}/DDICDI.properties</args>
+                <args>-DpropertyFiles=${project.basedir}/generic.properties,${project.basedir}/DDI-CDI.properties</args>
                 <args>-Dmodel=${project.basedir}/ddi-cdi_canonical-unique-names-eclipse.xmi</args>
               </jvmArgs>
 			  <applicationsArgs>
