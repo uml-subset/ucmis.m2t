@@ -30,6 +30,8 @@ USAGE:
   <name>ucmis.m2t Parent</name>
 
   <properties>
+    <model>ddi-cdi_canonical-unique-names-eclipse.xmi</model>
+    <propertyFiles>generic.properties,DDI-CDI.properties</propertyFiles>
     <tycho-version>4.0.8</tycho-version>
     <tycho-extras-version>4.0.8</tycho-extras-version>
     <maven-clean-plugin-version>3.4.0</maven-clean-plugin-version>
@@ -226,8 +228,8 @@ USAGE:
               </dependencies>
 			  
 			  <jvmArgs>
-                <args>-DpropertyFiles=${project.basedir}/generic.properties,${project.basedir}/DDI-CDI.properties</args>
-                <args>-Dmodel=${project.basedir}/ddi-cdi_canonical-unique-names-eclipse.xmi</args>
+                <args>-DpropertyFiles=${project.basedir}/${propertyFiles}</args>
+                <args>-Dmodel=${project.basedir}/${model}</args>
               </jvmArgs>
 			  <applicationsArgs>
                 <args>-consoleLog</args>
