@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.eclipse.acceleo.Module;
 import org.eclipse.acceleo.Template;
@@ -141,11 +143,14 @@ public class MainGenerator {
 		}
 		
 		// Get property files from system property
-		String propertyFiles = System.getProperty("propertyFiles");
-		if (propertyFiles == null) {
-			propertyFiles = "";
+		String propertyFilesParam = System.getProperty("propertyFiles");
+		String propertyFiles = "";
+		if (propertyFilesParam != null && !propertyFilesParam.isEmpty()) {
+			propertyFiles = Arrays.stream(propertyFilesParam.split(","))
+						.map(String::trim)
+						.collect(Collectors.joining(","));
 		}
-		
+				
 		final MainGenerator generator = new MainGenerator(resources, propertyFiles, target);
 		generator.generate(getMonitor());
 		
