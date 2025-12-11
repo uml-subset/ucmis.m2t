@@ -24,8 +24,8 @@
 [template public uxsd_referenceClass(aType : uml::Type) post(self.trim())]
   [if (aType.oclIsKindOf(uml::Class))]
     [let aClass = aType.oclAsType(uml::Class)]
-      [if (aClass.e_allSubclassesPlusSelfNonAbstract()->notEmpty())]
-        [for (aSubClass : uml::Class | aClass.e_allSubclassesPlusSelfNonAbstract())]
+      [if (aClass.u_allSubclassesPlusSelfNonAbstract()->notEmpty())]
+        [for (aSubClass : uml::Class | aClass.u_allSubclassesPlusSelfNonAbstract())]
           <xs:enumeration value="[aSubClass.name/]"/>
         [/for]
       [else]
