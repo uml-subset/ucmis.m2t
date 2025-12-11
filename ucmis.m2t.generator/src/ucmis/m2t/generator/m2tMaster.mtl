@@ -12,7 +12,6 @@
 [import ucmis::m2t::generator::target::doc::modelDocFile/]
 [import ucmis::m2t::generator::target::xsd::modelXsdFile/]
 [import ucmis::m2t::generator::test::test/]
-[import ucmis::m2t::generator::service::PropertyService/]
 
 [**
  Processes a UML class model.

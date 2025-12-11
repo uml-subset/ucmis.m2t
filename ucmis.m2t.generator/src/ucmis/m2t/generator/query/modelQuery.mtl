@@ -113,7 +113,7 @@
 [**
  * Returns an ordered set of subclasses of a class, sorted by class name.
  */]
-[query public u_subClasses(aClass : uml::Class) : OrderedSet(uml::Generalization) =
+[query public u_subClasses(aClass : uml::Classifier) : OrderedSet(uml::Generalization) =
     aClass.eInverse(uml::Generalization)
     ->select( g | g.specific.name <> aClass.name )
     ->sortedBy(g | g.specific.name)
@@ -130,7 +130,7 @@
 [**
  * Returns an ordered set of all classes of a subclass hierarchy of a class.
  */]
-[query public u_allSubclasses(aClass : uml::Class) : OrderedSet(uml::Generalization) =
+[query public u_allSubclasses(aClass : uml::Classifier) : OrderedSet(uml::Generalization) =
   if aClass.u_subClasses() -> notEmpty() then
     aClass.u_subClasses() -> union( aClass.u_subClasses()->collect( c | c.specific.u_allSubclasses() ) )
   else
@@ -151,18 +151,18 @@
 [**
  * Returns an ordered set of subclasses including self.
  */]
-[query public u_allSubclassesPlusSelf(aClass : uml::Class ) : OrderedSet(uml::Class) =
+[query public u_allSubclassesPlusSelf(aClass : uml::Classifier ) : OrderedSet(uml::Classifier) =
   aClass.u_allSubclasses()->collect(g | g.specific)->union(aClass->asSet())
     ->asOrderedSet()
-    ->sortedBy(c : uml::Class | c.name)
+    ->sortedBy(c : uml::Classifier | c.name)
 /]
 
 [**
  * Returns an ordered set of non-abstract subclasses including self.
  */]
-[query public u_allSubclassesPlusSelfNonAbstract(aClass : uml::Class ) : OrderedSet(uml::Class) =
+[query public u_allSubclassesPlusSelfNonAbstract(aClass : uml::Classifier ) : OrderedSet(uml::Classifier) =
   aClass.u_allSubclassesPlusSelf()
-    ->select(c : uml::Class | c.isAbstract=false)
+    ->select(c : uml::Classifier | c.isAbstract=false)
     ->asOrderedSet()
 /]
 
