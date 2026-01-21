@@ -9,17 +9,33 @@
 [**
  * TODO
  */]
-[template public uxsd_referenceClass(aType : uml::Type) post(self.trim())]
-  [let aClass = aType.oclAsType(uml::Class)]
-    [if (aClass.e_allSubclassesPlusSelfNonAbstract()->notEmpty())]
-      [for (aSubClass : uml::Class | aClass.e_allSubclassesPlusSelfNonAbstract())]
-        <xs:enumeration value="[aSubClass.name/]"/>
-      [/for]
-    [else]
-      <xs:enumeration value="[aClass.name/]"/>
-    [/if]
-  [/let]
+[template public uxsd_referenceClass(aClass : uml::Class) post(self.trim())]
+  [if (aClass.u_allSubclassesPlusSelfNonAbstract()->notEmpty())]
+    [for (aSubClass : uml::Class | aClass.u_allSubclassesPlusSelfNonAbstract())]
+      <xs:enumeration value="[aSubClass.name/]"/>
+    [/for]
+  [else]
+    <xs:enumeration value="[aClass.name/]"/>
+  [/if]
 [/template]
+[template public Xuxsd_referenceClass(aClass : uml::Class) post(self.trim())]
+[comment] [template public uxsd_referenceClass(aType : uml::Type) post(self.trim())]
+[/comment][comment]   [let aClass = aType.oclAsType(uml::Class)]
+[/comment]
+  [if (aClass.u_allSubclassesPlusSelfNonAbstract()->notEmpty())]
+[comment]     [if (aClass.eInverse(uml::Generalization)->size()>0)]
+      XX: [aClass.eInverse(uml::Generalization).source.oclAsType(uml::Class) /]
+      XX: [aClass->closure(c | c.eInverse(uml::Generalization).source.oclAsType(uml::Class)) /]
+    [/if]   
+[/comment]
+    [for (aSubClass : uml::Class | aClass.u_allSubclassesPlusSelfNonAbstract())]
+      <xs:enumeration value="[aSubClass.name/]"/>
+    [/for]
+  [else]
+    <xs:enumeration value="[aClass.name/]"/>
+  [/if]
+[comment]   [/let]
+[/comment][/template]
 
 
 [**

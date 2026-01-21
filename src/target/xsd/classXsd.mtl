@@ -77,7 +77,7 @@
                                 xml:id="[aProperty.association.name + '-validType'/]">
                       <xs:simpleType>
                         <xs:restriction base="xs:NMTOKEN">
-                          [targetClassProperty.type.uxsd_referenceClass()/]
+                          [targetClassProperty.type.oclAsType(uml::Class).uxsd_referenceClass()/]
                         </xs:restriction>
                       </xs:simpleType>
                     </xs:element>
