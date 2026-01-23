@@ -12,6 +12,7 @@
  * (not for enumerations and primitive types).
  */]
 [template public dataTypeXsd(aDataType : uml::DataType) ]
+
   <xs:element name="[aDataType.name/]"
               type="[aDataType.name/]XsdType"
               xml:id="[aDataType.name/]">
@@ -40,44 +41,45 @@
     [/if]
   </xs:complexType>
 [if ('DDI-CDI'.ownGetProperty() = 'true' and aDataType.name = 'Reference')]
-    <xs:element name="AssociationReference"
-                type="AssociationReferenceXsdType"
-                xml:id="AssociationReference">
-      <!-- related to the UML data type [aDataType.qualifiedName/] -->
-      <xs:annotation>
-        ['AssociationReference '.concat(aDataType.u_trimmedDocumentation()).uxsd_escapeXmlCharacter().uxsd_documentation() /]
-      </xs:annotation>
-    </xs:element>
-    <xs:complexType name="AssociationReferenceXsdType"
-                    xml:id="AssociationReferenceXsdType">
-      <xs:annotation>
-        ['AssociationReference '.concat(aDataType.u_trimmedDocumentation()).uxsd_escapeXmlCharacter().uxsd_documentation() /]
-      </xs:annotation>
-          <xs:sequence>
-            <xs:element name="ddiReference"
-                        type="InternationalRegistrationDataIdentifierXsdType"
-                        minOccurs="0"
-                        maxOccurs="1"
-                        xml:id="AssociationReference-ddiReference">
-              <xs:annotation>
-                <xs:documentation>A DDI type reference to a DDI object.</xs:documentation>
-              </xs:annotation>
-            </xs:element>
-            <xs:element name="validType"
-                        type="xs:string"
-                        minOccurs="0"
-                        maxOccurs="unbounded"
-                        xml:id="AssociationReference-validType">
-              <xs:annotation>
-                <xs:documentation>The expected type of the reference (e.g., the class or element according to the schema of the referenced resource).</xs:documentation>
-              </xs:annotation>
-            </xs:element>
-          </xs:sequence>
-          <xs:attribute name="isAssociationReference"
-                        type="xs:boolean"
-                        fixed="true"
-                        xml:id="isAssociationReference"/>
-    </xs:complexType>[/if]
+
+  <xs:element name="AssociationReference"
+              type="AssociationReferenceXsdType"
+              xml:id="AssociationReference">
+    <!-- related to the UML data type [aDataType.qualifiedName/] -->
+    <xs:annotation>
+      ['AssociationReference '.concat(aDataType.u_trimmedDocumentation()).uxsd_escapeXmlCharacter().uxsd_documentation() /]
+    </xs:annotation>
+  </xs:element>
+  <xs:complexType name="AssociationReferenceXsdType"
+                  xml:id="AssociationReferenceXsdType">
+    <xs:annotation>
+      [aDataType.u_trimmedDocumentation().uxsd_escapeXmlCharacter().uxsd_documentation() /]
+    </xs:annotation>
+        <xs:sequence>
+          <xs:element name="ddiReference"
+                      type="InternationalRegistrationDataIdentifierXsdType"
+                      minOccurs="0"
+                      maxOccurs="1"
+                      xml:id="AssociationReference-ddiReference">
+            <xs:annotation>
+              <xs:documentation>A DDI type reference to a DDI object.</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="validType"
+                      type="xs:string"
+                      minOccurs="0"
+                      maxOccurs="unbounded"
+                      xml:id="AssociationReference-validType">
+            <xs:annotation>
+              <xs:documentation>The expected type of the reference (e.g., the class or element according to the schema of the referenced resource).</xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="isAssociationReference"
+                      type="xs:boolean"
+                      fixed="true"
+                      xml:id="isAssociationReference"/>
+  </xs:complexType>[/if]
 [/template]
 
 [comment multiplicity control/]

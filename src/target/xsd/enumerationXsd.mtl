@@ -11,6 +11,7 @@
  * Generates XML Schema code for an enumeration.
  */]
 [template public enumerationXsd(anEnumeration : uml::Enumeration)]
+
   <xs:simpleType name="[anEnumeration.name.concat('XsdType')/]"
                  xml:id="[anEnumeration.name.concat('XsdType')/]">
     <!-- based on the UML enumeration [anEnumeration.qualifiedName/] -->

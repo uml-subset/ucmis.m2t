@@ -20,8 +20,11 @@
     [if ( 'DDI-CDI'.ownGetProperty() = 'true' )]
         [aModel.xsdWrapper()/]
     [/if]
+    [aModel.u_mainPackage().eAllContents(uml::DataType)
+      ->select( self | self.name = 'ModelIdentification' )
+      .dataTypeXsd()/]
     [for ( aClass : uml::Class | aModel.u_mainPackage().eAllContents(uml::Class)
-        ->sortedBy( c | c.name) ) ]
+        ->sortedBy( self | self.name) ) ]
         [aClass.classXsd()/]
     [/for]
     [for ( anEnumeration : uml::Enumeration | aModel.u_mainPackage().eAllContents(uml::Enumeration)
@@ -29,9 +32,10 @@
         [anEnumeration.enumerationXsd()/]
     [/for]
     [for ( aDataType : uml::DataType | aModel.u_mainPackage().eAllContents(uml::DataType)
-      ->select( d | not( d.oclIsTypeOf( uml::Enumeration ) ) and
-        not( d.oclIsTypeOf( uml::PrimitiveType ) ) )
+      ->select( self | not( self.oclIsTypeOf( uml::Enumeration ) ) and
+        not( self.oclIsTypeOf( uml::PrimitiveType ) ) )
       ->sortedBy( self | self.qualifiedName)
+      ->select( self | self.name <> 'ModelIdentification' )
       ) ]
         [aDataType.dataTypeXsd()/]
     [/for]

@@ -11,6 +11,7 @@
  * Generates XML Schema code for a class.
  */]
 [template public classXsd(aClass : uml::Class)]
+
   <xs:element name="[aClass.name/]"
               type="[aClass.name/]XsdType"
               xml:id="[aClass.name/]">
